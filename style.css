@@ -1,0 +1,1002 @@
+/* ============================================
+   المتغيرات العامة (الثيم الأساسي)
+   ============================================ */
+:root {
+    --primary: #6C63FF;
+    --primary-light: #8A84FF;
+    --primary-dark: #5A52D5;
+    --bg: #f8f9fe;
+    --bg-card: #ffffff;
+    --text: #1f1f2e;
+    --text-light: #6b6b7a;
+    --shadow: 0 10px 30px rgba(108, 99, 255, 0.15);
+    --border-radius: 16px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+}
+
+/* ===== الوضع الداكن ===== */
+[data-theme="dark"] {
+    --bg: #0f0f1a;
+    --bg-card: #1a1a2e;
+    --text: #eaeaf0;
+    --text-light: #a0a0b8;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   إعادة تعيين عامة
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background var(--transition), color var(--transition);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ============================================
+   شريط التنقل
+   ============================================ */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--bg);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+    transition: background var(--transition), box-shadow var(--transition);
+    backdrop-filter: blur(12px);
+    background: rgba(248, 249, 254, 0.85);
+}
+
+[data-theme="dark"] header {
+    background: rgba(15, 15, 26, 0.85);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.logo a {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.logo a span {
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color var(--transition);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width var(--transition);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-actions button {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: color var(--transition), transform 0.2s;
+    padding: 6px;
+    border-radius: 50%;
+}
+
+.nav-actions button:hover {
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+#menuToggle {
+    display: none;
+}
+
+/* ============================================
+   الأزرار العامة
+   ============================================ */
+.btn {
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.btn.primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(108, 99, 255, 0.35);
+}
+
+.btn.outline {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--text-light);
+}
+
+.btn.outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* ============================================
+   رأس الأقسام
+   ============================================ */
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2.6rem;
+    font-weight: 800;
+}
+
+.section-header .line {
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin: 12px auto;
+    border-radius: 4px;
+}
+
+.section-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.highlight {
+    color: var(--primary);
+}
+
+/* ============================================
+   قسم البطل (الرئيسية)
+   ============================================ */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 30px 50px;
+    background: var(--bg);
+    transition: background var(--transition);
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.hero-text {
+    flex: 1 1 500px;
+}
+
+.hero-text h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.hero-text .subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin: 16px 0 12px;
+    min-height: 2.8rem;
+}
+
+.hero-text .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.6rem;
+    background: var(--primary);
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.hero-text .desc {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 500px;
+    margin-bottom: 28px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.social-icons {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    color: var(--text);
+    font-size: 1.2rem;
+    transition: all var(--transition);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.social-icons a:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+}
+
+/* الصورة الشخصية */
+.hero-image {
+    flex: 1 1 300px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid var(--primary);
+    box-shadow: 0 20px 50px rgba(108, 99, 255, 0.25);
+    transition: transform var(--transition);
+}
+
+.profile-pic:hover {
+    transform: scale(1.03) rotate(-2deg);
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.floating-badge {
+    position: absolute;
+    background: var(--bg-card);
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: float 3s ease-in-out infinite;
+    color: var(--text);
+}
+
+.badge-1 {
+    top: 10%;
+    right: -10%;
+    animation-delay: 0s;
+}
+
+.badge-2 {
+    bottom: 15%;
+    left: -10%;
+    animation-delay: 1.5s;
+}
+
+.floating-badge i {
+    color: var(--primary);
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.scroll-indicator {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator i {
+    margin-top: 6px;
+    font-size: 1.2rem;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+/* ============================================
+   قسم عني
+   ============================================ */
+.about {
+    padding: 80px 0;
+    background: var(--bg);
+    transition: background var(--transition);
+}
+
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-text {
+    flex: 2 1 400px;
+}
+
+.about-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+}
+
+.about-text p {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    max-width: 550px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 30px;
+    margin: 24px 0 28px;
+}
+
+.info-grid div {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-grid div span {
+    font-size: 1.2rem;
+}
+
+.about-stats {
+    flex: 1 1 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.stat-box {
+    background: var(--bg-card);
+    padding: 24px 16px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition);
+}
+
+.stat-box:hover {
+    transform: translateY(-6px);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* ============================================
+   قسم الخبرات
+   ============================================ */
+.experience {
+    padding: 80px 0;
+    background: var(--bg);
+    transition: background var(--transition);
+}
+
+.experience-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.exp-card {
+    display: flex;
+    gap: 24px;
+    background: var(--bg-card);
+    padding: 24px 28px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+    align-items: flex-start;
+}
+
+.exp-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 15px 35px rgba(108, 99, 255, 0.15);
+}
+
+.exp-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    min-width: 50px;
+    text-align: center;
+    padding-top: 4px;
+}
+
+.exp-content {
+    flex: 1;
+}
+
+.exp-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+
+.exp-org {
+    display: block;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+
+.exp-date {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 2px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 6px 0 10px;
+}
+
+.exp-content p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* ============================================
+   قسم المهارات
+   ============================================ */
+.skills {
+    padding: 80px 0;
+    background: var(--bg);
+    transition: background var(--transition);
+}
+
+.skills-subtitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 40px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skills-subtitle i {
+    color: var(--primary);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 50px;
+}
+
+.skill-item {
+    width: 100%;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.skill-percent {
+    color: var(--primary);
+}
+
+.skill-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.skill-progress {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 10px;
+    width: 0;
+    transition: width 1.2s ease;
+}
+
+/* الشهادات */
+.certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.cert-card {
+    background: var(--bg-card);
+    padding: 14px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    transition: transform var(--transition);
+}
+
+.cert-card:hover {
+    transform: translateY(-4px);
+}
+
+.cert-card i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* اللغات */
+.languages-grid {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.lang-item {
+    background: var(--bg-card);
+    padding: 12px 28px;
+    border-radius: 40px;
+    box-shadow: var(--shadow);
+    font-weight: 600;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.lang-level {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* الدورات */
+.courses-list ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 30px;
+}
+
+.courses-list ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(108, 99, 255, 0.06);
+}
+
+.courses-list ul li i {
+    color: var(--primary);
+    font-size: 0.6rem;
+}
+
+/* المهارات الخاصة */
+.special-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
+}
+
+.skill-tag {
+    background: var(--bg-card);
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    border-right: 4px solid var(--primary);
+}
+
+/* ============================================
+   قسم التواصل
+   ============================================ */
+.contact {
+    padding: 80px 0;
+    background: var(--bg);
+    transition: background var(--transition);
+}
+
+.contact-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+
+.contact-form {
+    flex: 2 1 350px;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(108, 99, 255, 0.08);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--bg);
+    color: var(--text);
+    transition: border var(--transition), box-shadow var(--transition);
+    font-family: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+}
+
+.form-status {
+    margin-top: 16px;
+    font-weight: 600;
+    text-align: center;
+    min-height: 28px;
+}
+
+.form-status.success {
+    color: #22c55e;
+}
+
+.form-status.error {
+    color: #ef4444;
+}
+
+.contact-info {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 8px;
+}
+
+.contact-info div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.contact-info i {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.contact-info h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.contact-info p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   التذييل
+   ============================================ */
+footer {
+    background: var(--bg-card);
+    padding: 28px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(108, 99, 255, 0.06);
+    transition: background var(--transition);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text-light);
+    transition: all var(--transition);
+}
+
+.footer-social a:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* ============================================
+   استجابة للشاشات المختلفة
+   ============================================ */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    .hero-text .desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-text p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .info-grid {
+        justify-content: center;
+    }
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    .courses-list ul {
+        grid-template-columns: 1fr;
+    }
+    .floating-badge {
+        display: none;
+    }
+    .exp-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px;
+    }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: var(--bg-card);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.4s ease;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
+        padding: 40px 20px;
+    }
+    .nav-links.open {
+        right: 0;
+    }
+    #menuToggle {
+        display: block;
+    }
+    .hero-text h1 {
+        font-size: 2.4rem;
+    }
+    .profile-pic {
+        width: 200px;
+        height: 200px;
+    }
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    .contact-wrapper {
+        padding: 24px;
+    }
+    .certificates-grid {
+        grid-template-columns: 1fr;
+    }
+    .languages-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 1.9rem;
+    }
+    .hero-text .subtitle {
+        font-size: 1.2rem;
+    }
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .stat-number {
+        font-size: 2rem;
+    }
+    .contact-wrapper {
+        padding: 16px;
+    }
+    .exp-card {
+        padding: 18px;
+    }
+}

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مركز التطوير التكنولوجي - محافظة البحيرة</title>
+    
+    <!-- CSS - التنسيقات -->
+    <style>
+      :root {
+        --primary-color: #0d3b66;
+        --secondary-color: #0077b6;
+        --accent-color: #00b4d8;
+        --bg-light: #f8f9fa;
+        --text-dark: #212529;
+        --text-muted: #6c757d;
+        --white: #ffffff;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        direction: rtl;
+        text-align: right;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo-section { display: flex; align-items: center; gap: 12px; }
+
+      .logo-badge {
+        background-color: var(--accent-color);
+        color: var(--white);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .logo-text h1 { font-size: 1.2rem; margin: 0; }
+      .logo-text p { font-size: 0.8rem; opacity: 0.85; }
+
+      nav ul { display: flex; list-style: none; gap: 1.5rem; }
+      nav a { color: var(--white); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+      nav a:hover { color: var(--accent-color); }
+
+      .hero {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: var(--white);
+        padding: 5rem 2rem;
+        text-align: center;
+      }
+
+      .hero-content { max-width: 800px; margin: 0 auto; }
+      .hero h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+      .hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
+
+      .btn-primary {
+        background-color: var(--accent-color);
+        color: var(--white);
+        padding: 0.75rem 1.8rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s ease;
+      }
+
+      .btn-primary:hover { background-color: #0096c7; }
+
+      .container { max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem; }
+
+      .section-title {
+        text-align: center;
+        font-size: 1.8rem;
+        color: var(--primary-color);
+        margin-bottom: 2.5rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background-color: var(--accent-color);
+        margin: 8px auto 0;
+        border-radius: 2px;
+      }
+
+      .departments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.8rem;
+      }
+
+      .dept-card {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: 1.8rem;
+        box-shadow: var(--shadow);
+        border-top: 4px solid var(--secondary-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dept-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
+      .dept-card h3 { color: var(--primary-color); margin-bottom: 0.8rem; font-size: 1.3rem; }
+      .dept-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        height: 220px;
+      }
+
+      .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+      .gallery-item:hover img { transform: scale(1.08); }
+
+      .gallery-overlay {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(13, 59, 102, 0.88), transparent);
+        color: var(--white);
+        padding: 1rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+      .gallery-overlay p { font-size: 0.9rem; font-weight: 500; }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        padding-top: 60px;
+        left: 0; top: 0; width: 100%; height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.85);
+      }
+
+      .modal-content {
+        margin: auto; display: block; max-width: 80%; max-height: 75vh;
+        border-radius: 8px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      }
+
+      .modal-caption { margin: auto; display: block; width: 80%; max-width: 700px; text-align: center; color: #ccc; padding: 15px 0; font-size: 1.1rem; }
+
+      .close-modal {
+        position: absolute; top: 25px; left: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;
+      }
+
+      .close-modal:hover { color: var(--accent-color); }
+
+      .contact-section {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+        max-width: 700px;
+        margin: 3rem auto;
+      }
+
+      .form-group { margin-bottom: 1.2rem; }
+      .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color); }
+      .form-group input, .form-group select, .form-group textarea {
+        width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 5px; font-size: 0.95rem; font-family: inherit;
+      }
+
+      .alert-box {
+        display: none; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; font-weight: 500;
+      }
+      .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+      .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+      footer {
+        background-color: var(--primary-color); color: var(--white); text-align: center; padding: 2rem 1rem; margin-top: 4rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-container { flex-direction: column; gap: 1rem; }
+        nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+      }
+    </style>
+
+
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: transparent;
+      }
+
+      /* حاوية شريط الأخبار */
+      .ticker-container {
+        display: flex;
+        width: 100%;
+        background-color: #1a202c;
+        color: #ffffff;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        direction: rtl;
+      }
+
+      /* عنوان الشريط */
+      .ticker-title {
+        background-color: #e53e3e;
+        color: white;
+        padding: 10px 20px;
+        font-weight: bold;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        z-index: 10;
+        flex-shrink: 0;
+      }
+
+      /* منطقة حركة النصوص */
+      .ticker-wrapper {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-width: 0; /* يمنع تمدد الفليكس بسبب المحتوى الطويل */
+      }
+
+      .ticker-content {
+        display: inline-flex;
+        white-space: nowrap;
+        will-change: transform;
+        animation-name: ticker;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      .ticker-content.paused,
+      .ticker-content:hover {
+        animation-play-state: paused;
+      }
+
+      .ticker-item {
+        display: inline-block;
+        padding: 0 15px;
+        font-size: 18px;
+      }
+
+      .ticker-item:not(:last-child)::after {
+        content: "•";
+        margin-inline-start: 30px;
+        color: #e53e3e;
+      }
+
+      .ticker-item.ticker-empty::after,
+      .ticker-item.ticker-error::after {
+        content: "";
+        margin: 0;
+      }
+
+      .ticker-item.ticker-error {
+        color: #feb2b2;
+      }
+
+      /* الحركة من اليمين إلى اليسار (طبيعية لصفحة RTL) */
+      @keyframes ticker {
+        from {
+          transform: translate3d(-25%, 0, 0);
+        }
+        to {
+          transform: translate3d(100%, 0, 0);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ticker-title {
+          padding: 8px 12px;
+          font-size: 14px;
+        }
+        .ticker-item {
+          font-size: 14px;
+        }
+      }
+    </style>
+
+
+
+
+
+</head>
+<body>
+
+
+
+
+
+     <div class="ticker-container">
+      <div class="ticker-title">آخر الأخبار</div>
+      <div class="ticker-wrapper">
+        <div class="ticker-content" id="news-container">
+          <span class="ticker-item">جاري تحميل الأخبار...</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var REFRESH_INTERVAL_MS = 5 * 60 * 1000; // إعادة جلب الأخبار كل 5 دقائق
+      var PIXELS_PER_SECOND = 80; // للتحكم بسرعة ثابتة بغض النظر عن طول النص
+
+      document.addEventListener('DOMContentLoaded', loadNews);
+
+      function loadNews() {
+        google.script.run
+          .withSuccessHandler(showNews)
+          .withFailureHandler(showError)
+          .getNewsFromSheet();
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function showNews(newsArray) {
+        var container = document.getElementById('news-container');
+
+        if (newsArray && newsArray.error) {
+          showError(newsArray.error);
+          return;
+        }
+
+        if (newsArray && newsArray.length > 0) {
+          var html = '';
+          for (var i = 0; i < newsArray.length; i++) {
+            // استخدام textContent/escapeHtml لمنع أي حقن HTML قادم من بيانات الشيت
+            html += '<span class="ticker-item">' + escapeHtml(newsArray[i]) + '</span>';
+          }
+          container.innerHTML = html;
+        } else {
+          container.innerHTML = '<span class="ticker-item ticker-empty">لا توجد أخبار حالياً</span>';
+        }
+
+        adjustAnimationSpeed(container);
+        scheduleNextRefresh();
+      }
+
+      function showError(err) {
+        var container = document.getElementById('news-container');
+        var message = (err && err.message) ? err.message : 'تعذّر تحميل الأخبار';
+        container.innerHTML = '<span class="ticker-item ticker-error">⚠ ' + escapeHtml(message) + '</span>';
+        scheduleNextRefresh();
+      }
+
+      // يجعل سرعة الحركة ثابتة بصريًا بغض النظر عن كمية النص
+      function adjustAnimationSpeed(container) {
+        container.classList.add('paused');
+        // إعادة تشغيل الأنيميشن من الصفر مع مدة محسوبة
+        var width = container.scrollWidth + container.parentElement.clientWidth;
+        var duration = Math.max(width / PIXELS_PER_SECOND, 10); // 10 ثوانٍ كحد أدنى
+        container.style.animationDuration = duration + 's';
+        // إعادة تشغيل الأنيميشن (إزالة ثم إعادة إضافة الكلاس)
+        void container.offsetWidth; // إجبار إعادة الحساب
+        container.classList.remove('paused');
+      }
+
+      function scheduleNextRefresh() {
+        setTimeout(loadNews, REFRESH_INTERVAL_MS);
+      }
+    </script>
+
+
+
+
+
+
+
+    <!-- الهيدر وشريط التنقل -->
+    <header>
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="logo-badge">TDC</div>
+                <div class="logo-text">
+                    <h1>مركز التطوير التكنولوجي</h1>
+                    <p>مديرية التربية والتعليم بالبحيرة</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#hero">الرئيسية</a></li>
+                    <li><a href="#departments">الأقسام الرئيسية</a></li>
+                    <li><a href="#gallery">ألبوم الصور</a></li>
+                    <li><a href="#contact">تواصل مع المركز</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- الواجهة الرئيسية -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h2>مركز التطوير التكنولوجي بالبحيرة</h2>
+            <p>تقديم الدعم والحلول التكنولوجية والتدريب للارتقاء بالمنظومة التعليمية في جميع المدارس والإدارات التعليمية بقطاع البحيرة.</p>
+            <a href="#contact" class="btn-primary">تقديم طلب  أو استفسار</a>
+        </div>
+    </section>
+
+    <!-- الأقسام الرئيسية -->
+    <section id="departments" class="container">
+        <h2 class="section-title">أقسام المركز الرئيسية</h2>
+        
+        <div class="departments-grid">
+            <div class="dept-card">
+                <h3>قسم الدعم الفني</h3>
+                <p>متابعة وصيانة البنية التحتية التكنولوجية للمدارس، الشبكات، المعامل المدرسية، والأجهزة والسبورات التفاعلية.</p>
+            </div>
+            <div class="dept-card">
+                <h3>قسم الإنتاج التعليمي</h3>
+                <p>تطوير المحتوى الرقمي، إعداد المحاكاة التعليمية، وإنتاج المواد والمقررات التفاعلية الإلكترونية.</p>
+            </div>
+            <div class="dept-card">
+                <h3>قسم التدريب</h3>
+                <p>تنفيذ البرامج التدريبية للتنمية المهنية للخبراء والمشرفين والمعلمين والطلاب على أحدث التقنيات الرقمية.</p>
+            </div>
+            <div class="dept-card">
+                <h3>قسم المتابعة</h3>
+                <p>الإشراف الميداني وتقييم تفعيل التكنولوجيا وتوفر التجهيزات في جميع المدارس والإدارات التعليمية.</p>
+            </div>
+            <div class="dept-card">
+                <h3>قسم الشئون المالية والإدارية</h3>
+                <p>إدارة الأعمال الإدارية والمالية وتوفير التجهيزات والاحتياجات التنفيذية لجميع الأقسام.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ألبوم الصور -->
+    <section id="gallery" class="container">
+        <h2 class="section-title">ألبوم صور الفعاليات والأنشطة</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/1/600/400" alt="ورشة عمل تدريب المعلمين">
+                <div class="gallery-overlay"><p>ورشة عمل تدريب المعلمين على الشاشات التفاعلية</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/20/600/400" alt="صيانة معاهد التكنولوجيا">
+                <div class="gallery-overlay"><p>أعمال الصيانة الدورية لمعامل الكمبيوتر المدرسية</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/3/600/400" alt="إنتاج البرمجيات">
+                <div class="gallery-overlay"><p>إنتاج برمجيات ومحتوى تعليمي تفاعلي</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/180/600/400" alt="اجتماعات المتابعة">
+                <div class="gallery-overlay"><p>اجتماع متابعة مديري أقسام التطوير بالإدارات</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/119/600/400" alt="مسابقات التكنولوجيا">
+                <div class="gallery-overlay"><p>تكريم الطلاب الفائزين في مسابقات البرمجة والذكاء الاصطناعي</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/id/60/600/400" alt="تجهيز الشبكات">
+                <div class="gallery-overlay"><p>تجهيز وفحص شبكات الربط السحابي بالمدارس</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption" class="modal-caption"></div>
+    </div>
+
+    <!-- نموذج التواصل والتطوير -->
+    <section id="contact" class="container">
+        <h2 class="section-title">تواصل مع إدارة المركز</h2>
+        <div class="contact-section">
+            <div id="alertBox" class="alert-box"></div>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="entityName">اسم المدرسة / الإدارة التعليمية:</label>
+                    <input type="text" id="entityName" placeholder="مثال: مدرسة دمنهور الثانوية" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deptSelect">القسم المختص بالطلب:</label>
+                    <select id="deptSelect" required>
+                        <option value="">اختر القسم المطلوب...</option>
+                        <option value="دعم فني">قسم الدعم الفني</option>
+                        <option value="إنتاج تعليمي">قسم الإنتاج التعليمي</option>
+                        <option value="تدريب">قسم التدريب</option>
+                        <option value="متابعة">قسم المتابعة</option>
+                        <option value="شئون مالية وإدارية">قسم الشئون المالية والإدارية</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني للجهة:</label>
+                    <input type="email" id="email" placeholder="example@moe.edu.eg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">تفاصيل الاستفسار أو البلاغ الفني:</label>
+                    <textarea id="message" rows="5" placeholder="اكتب التفاصيل هنا..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%;">إرسال الطلب</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - مركز التطوير التكنولوجي بمحافظة البحيرة</p>
+    </footer>
+
+    <!-- JavaScript - البرمجة النصية -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const contactForm = document.getElementById('contactForm');
+          const alertBox = document.getElementById('alertBox');
+          const submitBtn = document.getElementById('submitBtn');
+
+          // إرسال البيانات لسيرفر Apps Script
+          if (contactForm) {
+              contactForm.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  
+                  submitBtn.disabled = true;
+                  submitBtn.innerText = 'جاري الإرسال...';
+
+                  const formData = {
+                      entityName: document.getElementById('entityName').value,
+                      deptSelect: document.getElementById('deptSelect').value,
+                      email: document.getElementById('email').value,
+                      message: document.getElementById('message').value
+                  };
+
+                  // استدعاء دالة الخادم processForm عبر google.script.run
+                  google.script.run
+                      .withSuccessHandler((response) => {
+                          alertBox.style.display = 'block';
+                          if(response.status === 'success') {
+                              alertBox.className = 'alert-box alert-success';
+                              alertBox.innerText = response.message;
+                              contactForm.reset();
+                          } else {
+                              alertBox.className = 'alert-box alert-danger';
+                              alertBox.innerText = response.message;
+                          }
+                          submitBtn.disabled = false;
+                          submitBtn.innerText = 'إرسال الطلب';
+                          
+                          setTimeout(() => { alertBox.style.display = 'none'; }, 6000);
+                      })
+                      .withFailureHandler((err) => {
+                          alertBox.style.display = 'block';
+                          alertBox.className = 'alert-box alert-danger';
+                          alertBox.innerText = 'فشل الإرسال: ' + err.message;
+                          submitBtn.disabled = false;
+                          submitBtn.innerText = 'إرسال الطلب';
+                      })
+                      .processForm(formData);
+              });
+          }
+
+          // التمرير السلس
+          document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+              anchor.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  const target = document.querySelector(this.getAttribute('href'));
+                  if (target) {
+                      target.scrollIntoView({ behavior: 'smooth' });
+                  }
+              });
+          });
+
+          // ألبوم الصور (Lightbox Popup)
+          const modal = document.getElementById('imageModal');
+          const modalImg = document.getElementById('modalImage');
+          const captionText = document.getElementById('caption');
+          const closeModal = document.querySelector('.close-modal');
+
+          document.querySelectorAll('.gallery-item').forEach(item => {
+              item.addEventListener('click', () => {
+                  const img = item.querySelector('img');
+                  const overlayText = item.querySelector('.gallery-overlay p').innerText;
+
+                  modal.style.display = "block";
+                  modalImg.src = img.src;
+                  captionText.innerText = overlayText;
+              });
+          });
+
+          if (closeModal) {
+              closeModal.addEventListener('click', () => { modal.style.display = "none"; });
+          }
+
+          window.addEventListener('click', (e) => {
+              if (e.target === modal) { modal.style.display = "none"; }
+          });
+      });
+    </script>
+
+
+
+
+</body>
+</html>
